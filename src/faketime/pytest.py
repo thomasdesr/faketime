@@ -1,5 +1,5 @@
 import pytest
-from faketime import _faketime
+from ._faketime import _faketime
 
 
 @pytest.fixture()
