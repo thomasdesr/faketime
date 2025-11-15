@@ -1,6 +1,5 @@
 import asyncio
 import time
-from typing import List
 
 from hypothesis import given
 from hypothesis.strategies import integers, lists
@@ -91,13 +90,11 @@ def test_monotonic_only_goes_forward(intervals):
 
             ft.shift(i)
 
-    assert sorted(monotonic_values) == monotonic_values, (
-        "Monotonic returned values that went down"
-    )
+    assert sorted(monotonic_values) == monotonic_values, "Monotonic returned values that went down"
 
 
 @given(lists(integers()))
-def test_monotonic_goes_up_by_the_right_amounts(intervals: List[int]):
+def test_monotonic_goes_up_by_the_right_amounts(intervals: list[int]):
     with must_complete_quickly(), frozentime() as ft:
         for shift in intervals:
             before = time.monotonic_ns()
@@ -105,9 +102,7 @@ def test_monotonic_goes_up_by_the_right_amounts(intervals: List[int]):
             after = time.monotonic_ns()
 
             if shift < 0:
-                assert after == before, (
-                    "If shifting back in time, monotonic can't go backwards"
-                )
+                assert after == before, "If shifting back in time, monotonic can't go backwards"
             else:
                 assert after - before == shift * NANOSECONDS_PER_SECOND, (
                     f"Time didn't advance by the right amount: {time.time()}"

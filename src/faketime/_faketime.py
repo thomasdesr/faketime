@@ -25,9 +25,7 @@ class _ExpandedTimeMachine:
 
         current_delta = current_time - self._previous_monotonic_ns
         if current_delta > 0:
-            self._highest_monotonic_ns = max(
-                current_time, self._highest_monotonic_ns + current_delta
-            )
+            self._highest_monotonic_ns = max(current_time, self._highest_monotonic_ns + current_delta)
 
         self._previous_monotonic_ns = current_time
         return self._highest_monotonic_ns

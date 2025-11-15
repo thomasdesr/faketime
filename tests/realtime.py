@@ -10,6 +10,4 @@ def must_complete_quickly():
 
     end = perf_counter()
 
-    assert end - start < 1, (
-        "Shouldn't have taken more than one second of real time to complete under faketime"
-    )
+    assert end - start < 1, "Shouldn't have taken more than one second of real time to complete under faketime"

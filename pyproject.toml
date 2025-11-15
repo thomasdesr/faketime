@@ -7,9 +7,36 @@ authors = [{ name = "Thomas Desrosiers", email = "git@hive.pw" }]
 requires-python = ">=3.13"
 dependencies = ["time-machine>=2.0.0"]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest>=7.0.0", "hypothesis>=6.0.0"]
+tools = ["ruff>=0.1.0", "pyright>=1.1.0"]
 
 [build-system]
 requires = ["uv_build>=0.8.14,<0.9.0"]
 build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+# [tool.ruff.format]
+# quote-style = "double"
+# indent-style = "space"
+
+# [tool.ruff.lint.isort]
+# known-first-party = ["faketime"]
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "standard"
+reportMissingImports = true
+reportMissingTypeStubs = false
+include = ["src"]
+exclude = ["**/__pycache__", "**/dist", "**/.venv", "**/node_modules"]

@@ -1,0 +1,66 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # File validation
+      - id: check-json
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+      - id: check-symlinks
+      - id: check-illegal-windows-names
+      - id: pretty-format-json
+        args: ['--autofix']
+      - id: sort-simple-yaml
+
+      # Code quality (non-Python specific)
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker
+
+      # Security
+      - id: detect-private-key
+      - id: detect-aws-credentials
+        args: ['--allow-missing-credentials']
+
+      # File naming
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.39.2
+    hooks:
+      - id: typos
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.5
+    hooks:
+      - id: ruff-check
+        types_or: [ python, pyi ]
+        args: [ --fix ]
+      - id: ruff-format
+        types_or: [ python, pyi ]
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.9.9
+    hooks:
+      # Update the uv lockfile
+      - id: uv-lock
+
+  - repo: local
+    hooks:
+      - id: ty-check
+        name: ty check
+        types_or: [ python, pyi ]
+        entry: uv run --with ty ty check
+        language: system
+      - id: pyright-check
+        name: pyright
+        types_or: [ python, pyi ]
+        entry: uv run --with pyright pyright
+        language: system
