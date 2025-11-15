@@ -6,6 +6,17 @@ capabilities to also fake out `time.sleep`, `asyncio.sleep`, and
 `time.monotonic`. When you advance time via any of the sleep functions, time
 will shift forward without waiting for that time to actually pass.
 
+## Note: This library may cause you bugs
+
+Both [time-machine](https://github.com/adamchainz/time-machine) and [freezegun](https://github.com/spulec/freezegun) have deliberately avoided mocking sleep functions and monotonic clocks after encountering significant issues (see below).
+
+That said, its _really_ handy to be able to mock out dumb sleeps. So user beware :D
+
+### Summary of upstream library issues
+
+**time-machine** added monotonic mocking in v2.13.0 and immediately broke asyncio tests, pytest durations, and database drivers ([#387](https://github.com/adamchainz/time-machine/issues/387), [#505](https://github.com/adamchainz/time-machine/issues/505), [#509](https://github.com/adamchainz/time-machine/issues/509)). The maintainer now plans to remove it entirely, stating it was "too brittle and broke many things, like asyncio" ([#560](https://github.com/adamchainz/time-machine/pull/560)).
+
+**freezegun** mocking `time.monotonic()` causes `asyncio.sleep()` to hang indefinitely ([#290](https://github.com/spulec/freezegun/issues/290), [#437](https://github.com/spulec/freezegun/issues/437), [#383](https://github.com/spulec/freezegun/issues/383)) and can make monotonic time move backwards, violating its core guarantee ([#556](https://github.com/spulec/freezegun/issues/556)).
 
 ## Install
 
